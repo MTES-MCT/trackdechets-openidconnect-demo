@@ -34,7 +34,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "jose": "^4.11.1",
-    "passport": "^0.4.1",
+    "passport": "^0.6.0",
     "passport-oauth2": "^1.5.0",
     "passport-openidconnect": "^0.1.1",
     "superagent": "^5.2.1",
