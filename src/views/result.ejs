@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Trackdéchets Openid connect demo</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/css/bulma.min.css">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+    <%- include('banner.ejs', {home: false}); %>
+    <div id="dashboard">
+    <div class="container">
+      
+      <div  class="is-size-5 has-margin">
+        <div class="notification is-success">Vous avez été authentifié par Trackdéchets, la signature a été vérifiée. <br> Voici les informations obtenues</div>
+          <h3>Header</h3>
+          <p>alg : <%- alg %></p>
+          <h3>ID Token</h3>
+
+           <%  for (let [key, value] of Object.entries(token)) { 
+            if (Array.isArray(value)){  %>
+              <h3>Companies:</h3>
+              <%  for (const l of value){
+            %>
+            <p> - Role: <%- l.role %> Siret:<%- l.siret|| 'Non renseigné' %> Vat:<%- l.vat_number|| 'Non renseigné' %></p>
+            <% 
+          }
+        } else 
+          {
+            %>
+<p><%- key %> : <%- value %></p>
+            <%    
+          }} %>
+            <a class="button is-info" href="/">Retour à l'accueil</a>
+ 
+      </div>
+ 
+    </div>
+  </div>
+</body>
+ 
+</html>
+
+

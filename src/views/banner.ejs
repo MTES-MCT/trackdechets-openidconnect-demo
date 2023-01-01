@@ -1,0 +1,22 @@
+<section class="hero is-medium is-warning is-bold">
+    <div class="hero-body">
+      <div class="container">
+        <div class="columns">
+                        <div class="column">
+        <h1 class="title">Bienvenue sur Votre Application®</h1>
+        <h2 class="subtitle">Se connecter à votre application via Trackdéchets et Openid Connect</h2>
+       <% if (home) { %>
+        <form action="/oidc/trackdechets" method="GET">
+          <button type="submit" class="button is-info">Se Connecter via Trackdéchets</button>
+        </form>
+        <% } %>
+      </div>
+      <div class="column is-one-quarter">
+        <div class="logo-wrapper">
+    <img src="/openid-connect-logo.png" alt="Logo open id connect" class="hero-logo">
+  </div>
+</div>
+  </div>
+      </div>
+    </div>
+  </section>
