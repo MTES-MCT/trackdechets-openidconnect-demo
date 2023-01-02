@@ -13,6 +13,6 @@ export async function getToken(code) {
       client_secret: CLIENT_SECRET,
       redirect_uri: CALLBACK_URL,
     });
-  console.log("body", res.body);
+
   return res.body.idToken;
 }

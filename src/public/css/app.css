@@ -1,9 +1,8 @@
-
 #home {
   margin-top: 100px;
 }
 
-.logo-wrapper{
+.logo-wrapper {
   background-color: white;
   border-radius: 50%;
   width: 220px;
@@ -12,18 +11,12 @@
   align-items: center;
   justify-content: center;
 }
-.hero-logo{
+.hero-logo {
   width: 200px;
 }
 
-
-#dashboard {
-  margin-top: 100px;
-  padding-left: 100px;
+.result {
+  margin: 20px auto 0 auto;
 }
 
-
-.has-margin {
-  margin-bottom: 50px;
-}
-
+ 

@@ -1,11 +1,11 @@
 const tokens = {};
 
-export function saveToken(token) {
-  tokens[token.sub] = token;
+export function saveToken(key, token) {
+  tokens[key] = token;
 }
-export function findToken(sub: string) {
-  if (tokens[sub]) {
-    return tokens[sub];
+export function findToken(key: string) {
+  if (tokens[key]) {
+    return tokens[key];
   } else {
     throw new Error("token not found");
   }

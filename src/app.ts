@@ -3,18 +3,12 @@ import * as session from "express-session";
 import * as passport from "passport";
 import { getToken } from "./api";
 import { saveToken, findToken } from "./tokens";
-import { OAuth2User } from "./types";
 
 const jose = require("jose");
 const spki = process.env.PUBLIC_KEY;
 
 const { SESSION_SECRET } = process.env;
 // Set specific type for req.user
-declare global {
-  namespace Express {
-    interface User extends OAuth2User {}
-  }
-}
 
 export const app = express();
 
@@ -38,28 +32,7 @@ app.get("/", (_req, res) => {
 
 app.get("/oidc/trackdechets", passport.authenticate("openidconnect"));
 
-app.get(
-  "/oidc/trackdechets/callback-----",
-  function (req, res, next) {
-    console.log("req", req);
-
-    passport.authenticate("openidconnect", function (error, user, info) {
-      // this will execute in any case, even if a passport strategy will find an error
-      // log everything to console
-      console.log("error", error);
-      console.log("user", user);
-      console.log("info", info);
-
-      next();
-    })(req, res);
-  },
-
-  (_req, res) => {
-    return res.redirect("/dashboard-oidc");
-  }
-);
-
-app.get("/oidc/trackdechets/callback", async (req, res, next) => {
+app.get("/oidc/trackdechets/callback", async (req, res) => {
   const code = req.query.code;
 
   const jwt = await getToken(code);
@@ -72,12 +45,14 @@ app.get("/oidc/trackdechets/callback", async (req, res, next) => {
     issuer: "trackdechets",
     audience: "brgm",
   });
-  saveToken(payload);
+
+  saveToken(payload.sub, { payload, protectedHeader });
   return res.redirect(`/result/${payload.sub}`);
 });
 
 app.get("/result/:userID", async (req, res) => {
-  const payload = findToken(req.params.userID);
-  return res.render("result", { token: payload, alg: "RSA256" });
+  const { payload, protectedHeader } = findToken(req.params.userID);
+  return res.render("result", { token: payload, alg: protectedHeader.alg });
 });
+
 app.listen(process.env.PORT || 3000);
