@@ -5,6 +5,7 @@ import { Strategy as OIDCStrategy } from "passport-openidconnect";
 const ROOT = "http://ui-td.test";
 const APIROOT = "http://api-td.ui-td.test";
 const { CLIENT_SECRET, CLIENT_ID } = process.env;
+
 passport.use(
   new OIDCStrategy(
     {
