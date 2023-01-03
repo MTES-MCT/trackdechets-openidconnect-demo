@@ -1,10 +1,10 @@
 import * as request from "superagent";
 
-const { CLIENT_ID, CLIENT_SECRET, CALLBACK_URL, TOKEN_URL } = process.env;
+const { CLIENT_ID, CLIENT_SECRET, CALLBACK_URL, API_ROOT } = process.env;
 
 export async function getToken(code) {
   const res = await request
-    .post(TOKEN_URL)
+    .post(`${API_ROOT}/oidc/token`)
     .set("Accept", "application/json")
     .send({
       code,
@@ -13,6 +13,5 @@ export async function getToken(code) {
       client_secret: CLIENT_SECRET,
       redirect_uri: CALLBACK_URL,
     });
-
   return res.body.idToken;
 }

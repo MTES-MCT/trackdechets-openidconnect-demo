@@ -5,10 +5,8 @@ import { getToken } from "./api";
 import { saveToken, findToken } from "./tokens";
 
 const jose = require("jose");
-const spki = process.env.PUBLIC_KEY;
 
-const { SESSION_SECRET } = process.env;
-// Set specific type for req.user
+const { SESSION_SECRET, AUDIENCE, PUBLIC_KEY, FRONT_ROOT } = process.env;
 
 export const app = express();
 
@@ -27,7 +25,7 @@ app.use(passport.session());
 require("./oidc");
 
 app.get("/", (_req, res) => {
-  res.render("home");
+  res.render("home", { frontRoot: FRONT_ROOT });
 });
 
 app.get("/oidc/trackdechets", passport.authenticate("openidconnect"));
@@ -39,15 +37,21 @@ app.get("/oidc/trackdechets/callback", async (req, res) => {
 
   const alg = "RS256";
 
-  const publicKey = await jose.importSPKI(spki, alg);
+  const publicKey = await jose.importSPKI(PUBLIC_KEY, alg);
+  let payload = "",
+    protectedHeader = "";
+  try {
+    ({ payload, protectedHeader } = await jose.jwtVerify(jwt, publicKey, {
+      issuer: "trackdechets",
+      audience: AUDIENCE,
+    }));
+    saveToken(payload["sub"], { payload, protectedHeader });
+  } catch (e) {
+    console.log(e);
+    return res.send("Error");
+  }
 
-  const { payload, protectedHeader } = await jose.jwtVerify(jwt, publicKey, {
-    issuer: "trackdechets",
-    audience: "brgm",
-  });
-
-  saveToken(payload.sub, { payload, protectedHeader });
-  return res.redirect(`/result/${payload.sub}`);
+  return res.redirect(`/result/${payload?.sub}`);
 });
 
 app.get("/result/:userID", async (req, res) => {

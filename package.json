@@ -1,25 +1,25 @@
 {
-  "name": "trackdechets-oauth2-demo-app",
+  "name": "trackdechets-openidconnect-demo",
   "version": "1.0.0",
-  "description": "Application de démonstration permettant d'illustrer l'utilisation du protocole OAuth2 pour récupérer un token Trackdéchets",
+  "description": "Application de démonstration permettant d'illustrer l'utilisation du protocole OpenId Connect pour récupérer un ID token Trackdéchets",
   "scripts": {
     "start": "ts-node -r dotenv/config src/app.ts",
     "test": "jest --setupFiles dotenv/config --force-exit"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MTES-MCT/trackdechets-oauth2-demo-app.git"
+    "url": "git+https://github.com/MTES-MCT/trackdechets-openidconnect-demo.git"
   },
   "keywords": [
-    "oauth2",
+    "openid connect",
     "trackdéchets"
   ],
-  "author": "Benoit Guigal",
+  "author": "Team Trackdéchets",
   "license": "AGPL v3 ou plus récent",
   "bugs": {
-    "url": "https://github.com/MTES-MCT/trackdechets-oauth2-demo-app/issues"
+    "url": "https://github.com/MTES-MCT/trackdechets-openidconnect-demo/issues"
   },
-  "homepage": "https://github.com/MTES-MCT/trackdechets-oauth2-demo-app#readme",
+  "homepage": "https://github.com/MTES-MCT/trackdechets-openidconnect-demo",
   "dependencies": {
     "@types/ejs": "^3.0.0",
     "@types/express": "^4.17.2",

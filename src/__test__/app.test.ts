@@ -21,7 +21,6 @@ describe("GET /oidc/trackdechets", () => {
       scope: "openid profile email companies",
     };
 
-    // console.log(redirect)
     const parsedRedirect = url.parse(redirect, true).query;
     const { nonce, state, ...redirectQueryParams } = parsedRedirect;
 
