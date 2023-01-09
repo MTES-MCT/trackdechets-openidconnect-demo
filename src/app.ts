@@ -31,6 +31,13 @@ app.get("/", (_req, res) => {
 app.get("/oidc/trackdechets", passport.authenticate("openidconnect"));
 
 app.get("/oidc/trackdechets/callback", async (req, res) => {
+  const error = req.query.error;
+  if (!!error) {
+    if (error === "access_denied") {
+      return res.redirect("/denied/");
+    }
+    return res.send("Erreur technique");
+  }
   const code = req.query.code;
 
   const jwt = await getToken(code);
@@ -59,4 +66,7 @@ app.get("/result/:userID", async (req, res) => {
   return res.render("result", { token: payload, alg: protectedHeader.alg });
 });
 
+app.get("/denied/", async (req, res) => {
+  return res.render("denied");
+});
 app.listen(process.env.PORT || 3000);
