@@ -54,7 +54,6 @@ app.get("/oidc/trackdechets/callback", async (req, res) => {
     }));
     saveToken(payload["sub"], { payload, protectedHeader });
   } catch (e) {
-    console.log(e);
     return res.send("Error");
   }
 
