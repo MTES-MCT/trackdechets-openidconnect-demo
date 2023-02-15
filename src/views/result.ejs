@@ -11,8 +11,7 @@
 <body>
     <%- include('banner.ejs', {home: false}); %>
     <div class="result" >
-    <div class="container">
-      
+    <div class="container">      
       <div  class="is-size-5">
         <div class="notification is-success">
           Vous avez été authentifié par Trackdéchets, la signature a été vérifiée, 
@@ -25,11 +24,20 @@
           <h3 class="has-text-weight-bold is-size-4">ID Token</h3>
 
            <%  for (let [key, value] of Object.entries(token)) { 
+         
             if (Array.isArray(value)){  %>
               <h3 class="has-text-weight-bold">Companies:</h3>
               <%  for (const l of value){
             %>
-            <p> - Role: <%- l.role %> Siret:<%- l.siret|| 'Non renseigné' %> Vat:<%- l.vat_number|| 'Non renseigné' %></p>
+            <br>
+            <p> - ID:<%- l.id %> 
+              Nom : <%- l.name %> 
+              Nom usuel : <%- l.given_name|| 'Non renseigné' %> <br>
+              Role: <%- l.role %> Siret:<%- l.siret|| 'Non renseigné' %> 
+              Vat : <%- l.vat_number|| 'Non renseigné' %><br>
+              Types : <%- l.types.join(", ") %> 
+              Vérifié : <%- l.verified %>
+              </p>
             <% 
           }
         } else 
