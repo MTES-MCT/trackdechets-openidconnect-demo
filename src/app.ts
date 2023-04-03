@@ -1,7 +1,7 @@
 import * as express from "express";
 import * as session from "express-session";
 import * as passport from "passport";
-import { getToken } from "./api";
+import { getTokens } from "./api";
 import { saveToken, findToken } from "./tokens";
 
 const jose = require("jose");
@@ -40,7 +40,7 @@ app.get("/oidc/trackdechets/callback", async (req, res) => {
   }
   const code = req.query.code;
 
-  const jwt = await getToken(code);
+  const { id_token: jwt, access_token } = await getTokens(code);
 
   const alg = "RS256";
 
@@ -52,8 +52,11 @@ app.get("/oidc/trackdechets/callback", async (req, res) => {
       issuer: "trackdechets",
       audience: AUDIENCE,
     }));
-    saveToken(payload["sub"], { payload, protectedHeader });
+
+    console.log(payload, protectedHeader);
+    saveToken(payload["sub"], { payload, protectedHeader, access_token });
   } catch (e) {
+    console.log(e);
     return res.send("Error");
   }
 
@@ -61,8 +64,14 @@ app.get("/oidc/trackdechets/callback", async (req, res) => {
 });
 
 app.get("/result/:userID", async (req, res) => {
-  const { payload, protectedHeader } = findToken(req.params.userID);
-  return res.render("result", { token: payload, alg: protectedHeader.alg });
+  const { payload, protectedHeader, access_token } = findToken(
+    req.params.userID
+  );
+  return res.render("result", {
+    token: payload,
+    alg: protectedHeader.alg,
+    access_token,
+  });
 });
 
 app.get("/denied/", async (req, res) => {

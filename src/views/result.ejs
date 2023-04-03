@@ -38,6 +38,7 @@
               Types : <%- l.types.join(", ") %> 
               Vérifié : <%- l.verified %>
               </p>
+              
             <% 
           }
         } else 
@@ -46,6 +47,9 @@
           <p><%- key %> : <%- value %></p>
             <%    
           }} %>
+          <h3 class="has-text-weight-bold is-size-4">Access Token</h3>
+
+          <p>access_token: "<%- access_token %>"</p>
             <a class="button is-info" style="margin-top: 1rem" href="/">Retour à l'accueil</a>
       </div>
  
